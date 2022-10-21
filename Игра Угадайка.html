@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    
+    <title>Игра "Угадай число"</title>
+    
+    <style>
+        #textField, #tryButton, #showCounter {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Игра "Угадай число"</h1>
+    <h5 id="pressButton">Для начала игры нажмите кнопку</h5>
+    <button type="button" id="startGameButton">Начать игру</button>
+    <button type="button" id="tryButton">OK</button>
+    <input type="text" id="textField">
+    <h5 id="enterNumber"></h5>
+    <p id="showCounter"></p>
+    
+    <script>
+        let counter = 0;
+        let quest;
+        let ans;
+        let text = 'Для начала игры нажмите кнопку';
+        let enterNumber = 'Надо ввести число';
+        
+      
+            document.getElementById('startGameButton').onclick = function(){
+            document.getElementById('enterNumber').innerHTML = enterNumber;
+            document.getElementById('startGameButton').style.display = "none";
+            text = 'Загадайте число от 1 до 100';
+            document.getElementById('pressButton').innerHTML = text;
+            document.getElementById('tryButton').style.display = "inline-block";
+            document.getElementById('textField').style.display = "inline-block";
+            document.getElementById('showCounter').style.display = "block";
+            counter = 0;
+            document.getElementById('showCounter').innerHTML = `Попыток ${counter}`;
+            quest = Math.floor(Math.random() * 100 + 1);
+            console.log(quest);
+            }
+        
+            document.getElementById('tryButton').onclick = function(){
+            counter++;
+            
+            ans = document.getElementById('textField').value;
+            
+            if (counter>=4) {
+                goToButtonStart();
+            
+            } else if (isNaN(ans)) {
+               checkAnswerText('Я просил ввести число!');
+               document.getElementById('showCounter').innerHTML = `Попыток ${counter}`;
+               counter--;
+            } else if (ans > 100) {
+                checkAnswerText('Введите число от 1 до 100!');
+                counter--;
+            
+            } else if (quest == ans){
+                rightAnswer();
+                
+            }else if (quest > ans){
+                checkAnswerText('Надо больше!');
+                
+            } else {
+                checkAnswerText('Надо меньше!'); 
+            }
+
+            document.getElementById('showCounter').innerHTML = `Попыток ${counter}`;
+            }
+        
+            function goToButtonStart() {
+                document.getElementById('startGameButton').style.display = "inline-block";
+                document.getElementById('tryButton').style.display = "none";
+                document.getElementById('textField').style.display = "none";
+                document.getElementById('showCounter').style.display = "none";
+                document.getElementById('showCounter').innerHTML = "";
+                text = 'Для начала игры нажмите кнопку';
+                document.getElementById('pressButton').innerHTML = text;
+                enterNumber = "";
+                document.getElementById('enterNumber').innerHTML = enterNumber;
+            }
+            
+            function rightAnswer() {
+                document.getElementById('textField').style.display = "none";
+                document.getElementById('tryButton').style.display = "none";
+                document.getElementById('showCounter').style.display = "none";
+                document.getElementById('pressButton').style.display = "none";
+                enterNumber = `Вы угадали с ${counter} попыток. Сыграем еще раз?`;
+                document.getElementById('enterNumber').innerHTML = enterNumber;
+                document.getElementById('startGameButton').style.display = "inline-block";
+                counter = 4;
+            }
+            
+            function checkAnswerText(answer) {
+                enterNumber = answer;
+                document.getElementById('enterNumber').innerHTML = enterNumber;   
+            }
+    </script>
+</body>
+</html>
+
