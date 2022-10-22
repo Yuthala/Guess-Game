@@ -9,35 +9,140 @@
         #textField, #tryButton, #showCounter {
             display: none;
         }
+        body {
+            letter-spacing: 0.06em;
+        }
+        h1 {
+            font: 32px/48px Impact, Charcoal, sans-serif;
+            color: DarkBlue;
+            text-align: center;
+            margin: 50px auto 20px;
+        }
+        
+        #pressButton {
+           font: 20px/28px Impact, Charcoal, sans-serif;
+           color: Navy; 
+           text-align: center;
+           margin: 20px auto;
+        }
+        
+        #startGameButton {
+            background-color: Crimson;
+            color: white;
+            font: 16px/24px Impact, Charcoal, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            width: 200px;
+            height: 50px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 5px 20px 50px rgba(16, 112, 177, 0.2);
+            display: block;
+            margin: 50px auto;
+            cursor: pointer;
+        }
+        
+        .wrapper {
+           border: 1px solid DarkGoldenRod; 
+           width: 60%;
+           height: 420px;
+           margin: 0 auto;
+           display: flex;
+           flex: none;
+           flex-direction: column;
+           gap: 5px;
+           background: rgba(220, 220, 220,.4);
+           border-radius: 30px;
+           justify-content: center;
+        }
+        .inner1 {
+            margin: 0 auto;
+
+        }  
+        .inner2 {
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .inner3 {
+            margin: 0 auto;
+        }
+        
+        #tryButton {
+            background-color: #00FF00;
+            color: black;
+            font: 24px/32px Impact, Charcoal, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            width: 100px;
+            height: 80px;
+            border-radius: 50px;
+            border: 2px solid black;
+            margin: 40px 70px;
+            cursor: pointer;
+        }
+        input {
+            display: block;
+        }
+        #textField {
+            width: 100px;
+            height: 60px;
+            text-align: center;
+            border: 2px dashed red;
+            margin: 20px;
+        }
+        
+        #enterNumber {
+            font: 22px/32px Impact, Charcoal, sans-serif;
+            color: DarkBlue;
+            text-align: center;
+            margin: 15px auto;
+        }
+        
+        #showCounter {
+           font: 18px/24px Impact, Charcoal, sans-serif;
+            color: #00FF00;
+            margin: 15px 60% 15px 0;
+            padding-left: 10px;
+            background-color: black;
+        }
     </style>
 </head>
 <body>
     <h1>Игра "Угадай число"</h1>
-    <h5 id="pressButton">Для начала игры нажмите кнопку</h5>
-    <button type="button" id="startGameButton">Начать игру</button>
-    <button type="button" id="tryButton">OK</button>
-    <input type="text" id="textField">
-    <h5 id="enterNumber"></h5>
-    <p id="showCounter"></p>
-    
+    <div class="wrapper">
+        <div class="inner1">
+            <h5 id="pressButton">Для начала игры нажмите кнопку</h5>
+            <button type="button" id="startGameButton">Начать игру</button>
+        </div>
+        <div class="inner2">
+                <h5 id="enterNumber"></h5>
+             <div class="inner3">
+                <input type="text" id="textField">
+                <button type="button" id="tryButton">OK</button><br> 
+            </div>
+            
+                <p id="showCounter"></p>
+        </div>
+    </div>
     <script>
         let counter = 0;
         let quest;
         let ans;
         let text = 'Для начала игры нажмите кнопку';
-        let enterNumber = 'Надо ввести число';
+        let enterNumber = ' ';
         
       
             document.getElementById('startGameButton').onclick = function(){
+            enterNumber = ' ';
             document.getElementById('enterNumber').innerHTML = enterNumber;
             document.getElementById('startGameButton').style.display = "none";
-            text = 'Загадайте число от 1 до 100';
+            text = 'Введите число от 1 до 100';
             document.getElementById('pressButton').innerHTML = text;
             document.getElementById('tryButton').style.display = "inline-block";
             document.getElementById('textField').style.display = "inline-block";
             document.getElementById('showCounter').style.display = "block";
             counter = 0;
-            document.getElementById('showCounter').innerHTML = `Попыток ${counter}`;
+            document.getElementById('showCounter').innerHTML = `Попыток:  ${counter}`;
             quest = Math.floor(Math.random() * 100 + 1);
             console.log(quest);
             }
@@ -47,12 +152,14 @@
             
             ans = document.getElementById('textField').value;
             
-            if (counter>=4) {
+            if (counter>=10) {
                 goToButtonStart();
             
             } else if (isNaN(ans)) {
                checkAnswerText('Я просил ввести число!');
-               document.getElementById('showCounter').innerHTML = `Попыток ${counter}`;
+               text = ' ';
+               document.getElementById('pressButton').innerHTML = text;
+               document.getElementById('showCounter').innerHTML = `Попыток:  ${counter}`;
                counter--;
             } else if (ans > 100) {
                 checkAnswerText('Введите число от 1 до 100!');
@@ -68,7 +175,7 @@
                 checkAnswerText('Надо меньше!'); 
             }
 
-            document.getElementById('showCounter').innerHTML = `Попыток ${counter}`;
+            document.getElementById('showCounter').innerHTML = `Попыток:  ${counter}`;
             }
         
             function goToButtonStart() {
@@ -91,7 +198,7 @@
                 enterNumber = `Вы угадали с ${counter} попыток. Сыграем еще раз?`;
                 document.getElementById('enterNumber').innerHTML = enterNumber;
                 document.getElementById('startGameButton').style.display = "inline-block";
-                counter = 4;
+                counter = 10;
             }
             
             function checkAnswerText(answer) {
